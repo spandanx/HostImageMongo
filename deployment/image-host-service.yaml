@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: image-host-service-lb
+  namespace: ats-space
+spec:
+  selector:
+    app: image-host-app
+  ports:
+    - protocol: TCP
+      port: 8000
+      targetPort: 8000
+      nodePort: 30085
+  type: LoadBalancer

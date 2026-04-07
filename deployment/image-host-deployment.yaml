@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: image-host-app
+  namespace: ats-space
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: image-host-app
+  template:
+    metadata:
+      labels:
+        app: image-host-app
+    spec:
+      containers:
+        - name: rag-container
+          image: spandanx/image_host_rag:1.0
+          ports:
+            - containerPort: 8501
+              name: rag-http-port
