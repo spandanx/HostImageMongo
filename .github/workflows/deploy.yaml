@@ -20,9 +20,6 @@ jobs:
           echo "Current file structure "
           ls -a
 
-      - name: Restore .env file
-        run: echo ${{ secrets.ENV_FILE_B64 }} | base64 --decode > .env
-
       - name: Restore config.properties file
         run: echo ${{ secrets.CONFIG_PROPERTIES_B64 }} | base64 --decode > config.properties
 
@@ -61,7 +58,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/image_host_rag:1.0
+          tags: ${{ secrets.DOCKER_USERNAME }}/image_host_rag:1.1
 
   deploy:
     runs-on: ubuntu-latest
@@ -133,39 +130,3 @@ jobs:
             kubectl get deployment -n ats-space
             kubectl get pods -n ats-space
             kubectl apply -f /tmp/kube-deploy/deployment/image-host-service.yaml -n ats-space
-      
-
-      - name: Apply Multimodal deployment with remote SSH commands
-        uses: appleboy/ssh-action@v1
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USERNAME }}
-          password: ${{ secrets.SSH_PASSWORD }}
-          port: ${{ secrets.SSH_PORT }}
-          script: |
-            echo "Successfully connected!"
-            echo "SSH file structure"
-            dir
-            docker --version
-            kind --version
-            kubectl version --client --output=yaml
-            kubectl get service -n ats-space
-            kubectl get deployment -n ats-space
-            kubectl get pods -n ats-space
-            kubectl apply -f /tmp/kube-deploy/deployment/multimodal-rag-deployment.yaml -n ats-space
-
-      - name: Apply Multimodal service with remote SSH commands
-        uses: appleboy/ssh-action@v1
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USERNAME }}
-          password: ${{ secrets.SSH_PASSWORD }}
-          port: ${{ secrets.SSH_PORT }}
-          script: |
-            echo "Successfully connected!"
-            echo "SSH file structure"
-            dir
-            kubectl get service -n ats-space
-            kubectl get deployment -n ats-space
-            kubectl get pods -n ats-space
-            kubectl apply -f /tmp/kube-deploy/deployment/multimodal-rag-service.yaml -n ats-space
