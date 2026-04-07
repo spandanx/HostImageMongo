@@ -2,3 +2,4 @@ pymongo[srv]
 python-dotenv
 fastapi==0.115.9
 fastembed
+uvicorn
