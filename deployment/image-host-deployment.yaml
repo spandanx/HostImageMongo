@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: rag-container
-          image: spandanx/image_host_rag:1.1
+          image: spandanx/image_host_rag:1.2
           ports:
             - containerPort: 8501
               name: rag-http-port

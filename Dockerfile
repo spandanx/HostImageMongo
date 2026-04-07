@@ -15,4 +15,4 @@ COPY . .
 EXPOSE 8501
 
 # Command to run the Streamlit application
-CMD ["uvicorn", "host_image:app"]
+CMD ["python", "-m", "uvicorn", "host_image:app", "--host", "0.0.0.0", "--port", "8000"]
